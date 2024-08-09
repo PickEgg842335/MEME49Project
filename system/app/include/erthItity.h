@@ -3,3 +3,4 @@
 
 extern void     sfCalerthItity(void);
 extern float    sffGetRmsTotalAcccle(void);
+extern int      sfwGetItityLevel(void);

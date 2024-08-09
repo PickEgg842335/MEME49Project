@@ -5,9 +5,7 @@ int     wAdcAcceleY = 0;
 int     wAdcAcceleZ = 0;
 float   fRealTotalAccele = 0;
 float   fRmsTotalAccele = 0;
-
-void sfCalerthItity(void);
-void sfGetDataXYZ(void);
+int     wInityLv = 0;
 
 
 void sfCalerthItity(void)
@@ -29,10 +27,29 @@ void sfCalerthItity(void)
         fTemp += fTotalAcceleArray[i] * fTotalAcceleArray[i];
     }
     fRmsTotalAccele = fTemp / 100;
+
+    if (fRmsTotalAccele < 0.25)
+    {
+        wInityLv = 0;
+    }
+    else if (fRmsTotalAccele < 4.0)
+    {
+        wInityLv = 1;
+    }
+    else
+    {
+        wInityLv = 2;
+    }
 }
 
 
 float sffGetRmsTotalAcccle(void)
 {
     return(fRmsTotalAccele);
+}
+
+
+int sfwGetItityLevel(void)
+{
+    return(wInityLv);
 }

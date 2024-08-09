@@ -17,10 +17,15 @@
 #define I2C_READ_FLAG 0x01
 
 unsigned char ubbuf[256] = {0};
+short   sDataXOffset = 0;
+short   sDataYOffset = 0;
+short   sDataZOffset = 0;
+
 
 void sfinitaladxl485(void)
 {
     int wfdi2cdev;
+    short sTemp;
 
     wfdi2cdev = open(DEVICE_I2C1, O_RDWR);
     ubbuf[0] = 0x0B;
@@ -28,6 +33,12 @@ void sfinitaladxl485(void)
     ubbuf[0] = 0x08;
     i2c_write_bytes(wfdi2cdev, REGISTER_DEVICE_POWER_CTL, ubbuf, 1);
     close(wfdi2cdev);
+    sTemp = sfwGetadxl485DataX();
+    sDataXOffset = (-1) * sTemp;
+    sTemp = sfwGetadxl485DataY();
+    sDataYOffset = (-1) * sTemp;
+    sTemp = sfwGetadxl485DataZ();
+    sDataZOffset = (-1) * sTemp;
 }
 
 
@@ -55,7 +66,7 @@ int sfwGetadxl485DataX(void)
     sdata = (short)ubbuf[0] << 8;
     i2c_read_bytes(wfdi2cdev, REGISTER_DEVICE_DATAX0, ubbuf, 1);
     sdata |= (short)ubbuf[0];
-    wResult = (int)sdata;
+    wResult = (int)(sdata + sDataXOffset);
     close(wfdi2cdev);
     return(wResult);
 }
@@ -72,7 +83,7 @@ int sfwGetadxl485DataY(void)
     sdata = (short)ubbuf[0] << 8;
     i2c_read_bytes(wfdi2cdev, REGISTER_DEVICE_DATAY0, ubbuf, 1);
     sdata |= (short)ubbuf[0];
-    wResult = (int)sdata;
+    wResult = (int)(sdata + sDataYOffset);
     close(wfdi2cdev);
     return(wResult);
 }
@@ -89,7 +100,7 @@ int sfwGetadxl485DataZ(void)
     sdata = (short)ubbuf[0] << 8;
     i2c_read_bytes(wfdi2cdev, REGISTER_DEVICE_DATAZ0, ubbuf, 1);
     sdata |= (short)ubbuf[0];
-    wResult = (int)sdata;
+    wResult = (int)(sdata + sDataZOffset);
     close(wfdi2cdev);
     return(wResult);
 }
@@ -113,8 +124,6 @@ void i2c_write_bytes(int fd, unsigned char address, unsigned char* data, unsigne
     
     /* Using ioctl to write data */
     ioctl(fd, I2C_RDWR, (unsigned long)&adxl485_write_data);
-    
-    printf("Write data success\n");
     
     if(adxl485_write_data.msgs != NULL)
     {
@@ -146,8 +155,6 @@ void i2c_read_bytes(int fd, unsigned char address, unsigned char* buf, unsigned 
     
     /* Using ioctl to read data */
     ioctl(fd, I2C_RDWR, (unsigned long)&adxl485_read_data);
-    
-    /*printf("e2prom_read_data.msgs[1].buf[0] = 0x%x\n", adxl485_read_data.msgs[1].buf[0]);*/
     
     memcpy((void*)buf, (void*)(adxl485_read_data.msgs[1].buf), (unsigned int)len);
     
