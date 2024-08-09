@@ -1,11 +1,21 @@
-#include "./include/ws2812bdisplay.h"
+#include "./include/app.h"
 
 
-void    sfinitialws2812Led(void)
+void    sfinitialws2812bdispaly(void)
 {
     sfOpenWbs2812bLedEnable(true);
     sfSetWbs2812bQty(2);
     sfOpenWbs2812bLedEnable(false);
+}
+
+
+void    sfws2812bdisplayTask(void)
+{
+    if((sfGetTaskFlag() & (1 << cWs2812bDisplayTask)) == (1 << cWs2812bDisplayTask))
+    {
+        sfClearTaskFlag(cWs2812bDisplayTask);
+        sfWarmingLedDisplay(sfwGetItityLevel());
+    }
 }
 
 

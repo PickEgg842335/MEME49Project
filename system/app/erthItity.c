@@ -1,4 +1,6 @@
-#include "./include/erthItity.h"
+#include "./include/app.h"
+
+#define cT(x) ((x * 1000) / cErthItityTimeCount)
 
 int     wAdcAcceleX = 0;
 int     wAdcAcceleY = 0;
@@ -8,37 +10,51 @@ float   fRmsTotalAccele = 0;
 int     wInityLv = 0;
 
 
+void sfinitialErthItity(void)
+{
+    sfinitaladxl485();
+}
+
+
+void sfErthItityTask(void)
+{
+    if((sfGetTaskFlag() & (1 << cErthItityTask)) == (1 << cErthItityTask))
+    {
+        sfClearTaskFlag(cErthItityTask);
+        sfCalerthItity();
+    }
+}
+
+
 void sfCalerthItity(void)
 {
     float fTotalAcceleArray[100];
-    float fTemp = 0;
+    static float fTemp = 0;
+    static unsigned int uwCnt = 0;
 
-    for(int i = 0; i < 100; i++)
-    {
-        wAdcAcceleX = sfwGetadxl485DataX();
-        wAdcAcceleY = sfwGetadxl485DataY();
-        wAdcAcceleZ = sfwGetadxl485DataZ();
-        fTotalAcceleArray[i] = sqrtf(wAdcAcceleX * wAdcAcceleX + wAdcAcceleY * wAdcAcceleY + wAdcAcceleZ * wAdcAcceleZ) / 256.0;
-        usleep(1000);
-    }
+    wAdcAcceleX = sfwGetadxl485DataX();
+    wAdcAcceleY = sfwGetadxl485DataY();
+    wAdcAcceleZ = sfwGetadxl485DataZ();
+    fTemp += sqrtf(wAdcAcceleX * wAdcAcceleX + wAdcAcceleY * wAdcAcceleY + wAdcAcceleZ * wAdcAcceleZ) / 256.0;
 
-    for(int i = 0; i < 100; i++)
+    if(++uwCnt >= 50)
     {
-        fTemp += fTotalAcceleArray[i] * fTotalAcceleArray[i];
-    }
-    fRmsTotalAccele = fTemp / 100;
+        fRmsTotalAccele = fTemp / 50.0;
+        fTemp = 0;
+        uwCnt = 0;
 
-    if (fRmsTotalAccele < 0.25)
-    {
-        wInityLv = 0;
-    }
-    else if (fRmsTotalAccele < 4.0)
-    {
-        wInityLv = 1;
-    }
-    else
-    {
-        wInityLv = 2;
+        if(fRmsTotalAccele < 0.25)
+        {
+            wInityLv = 0;
+        }
+        else if(fRmsTotalAccele < 4.0)
+        {
+            wInityLv = 1;
+        }
+        else
+        {
+            wInityLv = 2;
+        }
     }
 }
 
