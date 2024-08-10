@@ -33,11 +33,15 @@ void sfinitialTask(void)
 {
     uwTaskTimeArray[cErthItityTask] = cErthItityTimeCount;
     uwTaskTimeArray[cWs2812bDisplayTask] = cWs2812bDisplayTimeCount;
+    uwTaskTimeArray[cSharedMemTask] = cSharedMemTimeCount;
     uwTaskTimeArray[cDebugTask] = cDebugTimeCount;
     uwTaskTimeArray[cIdleTask] = 1;
     for(int i = 0; i < cTaskQty; i++)
     {
-        uwMaxCounter = uwMaxCounter * uwTaskTimeArray[i];
+        if(uwTaskTimeArray[i] != 0)
+        {
+            uwMaxCounter = uwMaxCounter * uwTaskTimeArray[i];
+        }
     }
 }
 
