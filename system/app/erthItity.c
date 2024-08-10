@@ -1,4 +1,5 @@
-#include "./include/app.h"
+#include    "./include/app.h"
+#include    "../interface/include/adxl485api.h"
 
 #define cT(x) ((x * 1000) / cErthItityTimeCount)
 

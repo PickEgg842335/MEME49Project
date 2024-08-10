@@ -1,4 +1,8 @@
 #include    "./include/wbs2812bapi.h"
+#include    <stdio.h>
+#include    <fcntl.h>
+#include    <sys/ioctl.h>
+#include    <stdbool.h>
 
 #define DEVICE_MAJOR    234
 #define IOCTL_SET_WBSQTY        _IOW(DEVICE_MAJOR,0, int)

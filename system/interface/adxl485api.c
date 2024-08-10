@@ -33,6 +33,7 @@ void sfinitaladxl485(void)
     ubbuf[0] = 0x08;
     i2c_write_bytes(wfdi2cdev, REGISTER_DEVICE_POWER_CTL, ubbuf, 1);
     close(wfdi2cdev);
+    usleep(50000);
     sTemp = sfwGetadxl485DataX();
     sDataXOffset = (-1) * sTemp;
     sTemp = sfwGetadxl485DataY();

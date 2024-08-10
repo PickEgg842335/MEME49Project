@@ -13,6 +13,7 @@ static unsigned int uwMaxCounter = 1;
 
 int main(void)
 {
+    sfinitialsharedMem();
     sfinitialErthItity();
     sfinitialws2812bdispaly();
     sfinitialTask();
