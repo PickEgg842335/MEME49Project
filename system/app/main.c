@@ -13,9 +13,10 @@ static unsigned int uwMaxCounter = 1;
 
 int main(void)
 {
-    sfinitialsharedMem();
+    sfinitialfileWR();
     sfinitialErthItity();
     sfinitialws2812bdispaly();
+    sfsharedMemTask();
     sfinitialTask();
     sfinitialtimer();
 
@@ -23,6 +24,7 @@ int main(void)
     {
         sfErthItityTask();
         sfws2812bdisplayTask();
+        sffileWRTask();
         sfDebugTask();
     }
     return 0;
@@ -33,7 +35,7 @@ void sfinitialTask(void)
 {
     uwTaskTimeArray[cErthItityTask] = cErthItityTimeCount;
     uwTaskTimeArray[cWs2812bDisplayTask] = cWs2812bDisplayTimeCount;
-    uwTaskTimeArray[cSharedMemTask] = cSharedMemTimeCount;
+    uwTaskTimeArray[cFileWRTask] = cFileWRTimeCount;
     uwTaskTimeArray[cDebugTask] = cDebugTimeCount;
     uwTaskTimeArray[cIdleTask] = 1;
     for(int i = 0; i < cTaskQty; i++)
@@ -84,9 +86,9 @@ void sfDebugTask(void)
     if((uwTaskFlag & (1 << cDebugTask)) == (1 << cDebugTask))
     {
         sfClearTaskFlag(cDebugTask);
-        printf("ID = %x\n", sfubGetadxl485DeviceId());
-        printf("RMSACC = %f\n", sffGetRmsTotalAcccle());
-        printf("Lv = %d\n", sfwGetItityLevel());
+        // printf("ID = %x\n", sfubGetadxl485DeviceId());
+        // printf("RMSACC = %f\n", sffGetRmsTotalAcccle());
+        // printf("Lv = %d\n", sfwGetItityLevel());
     }
 }
 

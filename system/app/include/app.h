@@ -7,26 +7,28 @@
 #include    <sys/ipc.h>
 #include    <sys/shm.h>
 #include    <sys/types.h>
+#include    <sys/stat.h>
+#include    <cjson/cJSON.h>
 #include    "erthItity.h"
 #include    "ws2812bdisplay.h"
-#include    "sharedMemtask.h"
+#include    "fileWRtask.h"
 
 #define cTaskQty                    5
 #define cErthItityTask              0
 #define cWs2812bDisplayTask         1
-#define cSharedMemTask              2
+#define cFileWRTask                 2
 #define cDebugTask                  3
 #define cIdleTask                   4
 
 #define cTimeBase                   1
 #define cErthItityTimeBase          10
 #define cWs2812bDisplayTimeBase     10
-#define cSharedMemTimeBase          50
+#define cFileWRTimeBase             2000
 #define cDebugTimeBase              1000
 
 #define cErthItityTimeCount         (cErthItityTimeBase / cTimeBase)
 #define cWs2812bDisplayTimeCount    (cWs2812bDisplayTimeBase / cTimeBase)
-#define cSharedMemTimeCount         (cSharedMemTimeBase / cTimeBase)
+#define cFileWRTimeCount            (cFileWRTimeBase / cTimeBase)
 #define cDebugTimeCount             (cDebugTimeBase / cTimeBase)
 
 extern unsigned char sfGetTaskFlag(void);

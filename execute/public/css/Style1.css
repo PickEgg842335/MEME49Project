@@ -1,0 +1,61 @@
+.classField1{
+    width: 600px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+}
+
+
+.classDivTitle h2{
+    width: 280px;
+    border: 2px solid rgb(255, 128, 0);
+    border-radius: 10px;
+    background-color: rgb(255, 128, 0);
+    text-align: center;
+    font-weight: 900;
+}
+
+
+.classDivCenter{
+    height: 200px;
+    display: flex;
+}
+
+
+.classDiv1CenterL1{
+    width: 50%;
+}
+
+
+.classDiv1CenterL1 span{
+    line-height: 0em;
+}
+
+
+.classRandPay span{
+    color:blue;
+    font-weight: 900;
+}
+
+
+.classDiv2CenterL1{
+    width: 50%;
+}
+
+
+.classDiv2CenterL1 span{
+    font-weight: 900;
+    line-height: 0em;
+}
+
+.classDivBottom{
+    border: 2px solid rgb(4, 40, 70);
+    background-color: rgb(4, 40, 70);
+    color: white;
+    text-align: center;
+}
+
+
+.classDivBottom p{
+    line-height: 1em;
+}
