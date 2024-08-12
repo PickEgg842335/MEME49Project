@@ -3,7 +3,7 @@ all:meme4916.out
 CC = gcc
 INCLUDE = .
 CFLAGS = -O -Wall -ansi -std=gnu99
-objects = app/main.o app/erthItity.o app/ws2812bdisplay.o app/fileWRtask.o interface/adxl485api.o interface/wbs2812bapi.o
+objects = app/main.o app/erthItity.o app/ws2812bdisplay.o app/fileWRtask.o interface/adxl485api.o interface/wbs2812bapi.o interface/pcf8591api.o
 MYLIB = mylib.a
 LDLIBS += -L./usrLib -lm
 meme4916.out: $(MYLIB)

@@ -1,5 +1,6 @@
 #include    "./include/app.h"
 #include    "../interface/include/adxl485api.h"
+#include    "../interface/include/pcf8591api.h"
 
 #define cT(x) ((x * 1000) / cErthItityTimeCount)
 
@@ -23,6 +24,7 @@ void sfErthItityTask(void)
     {
         sfClearTaskFlag(cErthItityTask);
         sfCalerthItity();
+        sfHeartBeatLed();
     }
 }
 
@@ -60,13 +62,44 @@ void sfCalerthItity(void)
 }
 
 
-float sffGetRmsTotalAcccle(void)
+void    sfHeartBeatLed(void)
+{
+    static unsigned int uwCnt = 0;
+    static unsigned char uwLedlightValue = 185;
+    static unsigned char ubUpDownFlag = true;
+
+    if(++uwCnt >= cT(0.02))
+    {
+        uwCnt = 0;
+        sfOutputDacValue(uwLedlightValue);
+        if(uwLedlightValue == 255)
+        {
+            ubUpDownFlag = false;
+        }
+        else if(uwLedlightValue == 185)
+        {
+            ubUpDownFlag = true;
+        }
+
+        if(ubUpDownFlag == true)
+        {
+            uwLedlightValue++;
+        }
+        else
+        {
+            uwLedlightValue--;
+        }
+    }
+}
+
+
+float   sffGetRmsTotalAcccle(void)
 {
     return(fRmsTotalAccele);
 }
 
 
-int sfwGetItityLevel(void)
+int     sfwGetItityLevel(void)
 {
     return(wInityLv);
 }

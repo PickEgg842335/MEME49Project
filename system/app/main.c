@@ -16,7 +16,6 @@ int main(void)
     sfinitialfileWR();
     sfinitialErthItity();
     sfinitialws2812bdispaly();
-    sfsharedMemTask();
     sfinitialTask();
     sfinitialtimer();
 
@@ -42,7 +41,10 @@ void sfinitialTask(void)
     {
         if(uwTaskTimeArray[i] != 0)
         {
-            uwMaxCounter = uwMaxCounter * uwTaskTimeArray[i];
+            if(uwMaxCounter % uwTaskTimeArray[i] != 0)
+            {
+                uwMaxCounter = uwMaxCounter * uwTaskTimeArray[i];
+            }
         }
     }
 }
