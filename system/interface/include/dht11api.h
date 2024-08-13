@@ -1,0 +1,1 @@
+extern int swfGetDht11HumidityTemparture(float *ptrArray);

@@ -23,16 +23,34 @@
 #define CONTROLBYTE_TWO_DIFF            (3 << 4)
 #define CONTROLBYTE_ENBDAC              (1 << 6)
 
-
 #define I2C_WRITE_FLAG                  0x00
 #define I2C_READ_FLAG                   0x01
 
-unsigned char ubbuf2[5] = {0};
+unsigned char uAdcInputValue[4];
+
+void sfInputAdcValueUpgrade(void)
+{
+    int wfdi2cdev;
+    unsigned char ubbuf2[5];
+    unsigned char ubControlByte = 0x00;
+
+    ubControlByte |= CONTROLBYTE_ENBDAC | CONTROLBYTE_SINGLEENDED | CONTROLBYTE_AUTOINCR | CONTROLBYTE_CH1;
+
+    wfdi2cdev = open(DEVICE_I2C1, O_RDWR);
+    sfpcf8591_read_bytes(wfdi2cdev, ubControlByte, ubbuf2, 4);
+    close(wfdi2cdev);
+    uAdcInputValue[0] = ubbuf2[0];
+    uAdcInputValue[1] = ubbuf2[1];
+    uAdcInputValue[2] = ubbuf2[2];
+    uAdcInputValue[3] = ubbuf2[3];
+    //printf("ADCVALUE = %d %d %d %d\n", ubbuf2[0], ubbuf2[1], ubbuf2[2], ubbuf2[3]);
+}
 
 
 void sfOutputDacValue(unsigned char ubValue)
 {
     int wfdi2cdev;
+    unsigned char ubbuf2[5];
     unsigned char ubControlByte = 0x00;
 
     ubControlByte |= CONTROLBYTE_ENBDAC;
@@ -71,7 +89,7 @@ void sfpcf8591_write_bytes(int fd, unsigned char address, unsigned char* data, u
 }
 
 
-void fpcf8591_read_bytes(int fd, unsigned char address, unsigned char* buf, unsigned short len)
+void sfpcf8591_read_bytes(int fd, unsigned char address, unsigned char* buf, unsigned short len)
 {        
     struct i2c_rdwr_ioctl_data fpcf8591_read_bytes;
     
@@ -102,3 +120,10 @@ void fpcf8591_read_bytes(int fd, unsigned char address, unsigned char* buf, unsi
         fpcf8591_read_bytes.msgs = NULL;
     }
 }
+
+
+unsigned char sfubGetAdcChannelValue(unsigned char ubChannel)
+{
+    return(uAdcInputValue[ubChannel]);
+}
+

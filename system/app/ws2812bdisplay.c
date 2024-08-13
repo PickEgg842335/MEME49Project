@@ -1,5 +1,6 @@
 #include    "./include/app.h"
 #include    "../interface/include/wbs2812bapi.h"
+#include    "../interface/include/pcf8591api.h" //test
 #include    <stdbool.h>
 
 #define cT(x) ((x * 1000) / cWs2812bDisplayTimeCount)
@@ -36,6 +37,7 @@ void    sfws2812bdisplayTask(void)
     {
         sfClearTaskFlag(cWs2812bDisplayTask);
         sfWarmingLedDisplay(sfwGetItityLevel());
+        sfInputAdcValueUpgrade();
     }
 }
 
@@ -68,10 +70,10 @@ void    sfWarmingLedDisplay(int wLevel)
 void    sfNormalWorking(void)
 {
     ubRBBData[0][0] = 0;
-    ubRBBData[0][1] = 3;
+    ubRBBData[0][1] = sfubGetAdcChannelValue(1) | 0x01;
     ubRBBData[0][2] = 0;
     ubRBBData[1][0] = 0;
-    ubRBBData[1][1] = 3;
+    ubRBBData[1][1] = sfubGetAdcChannelValue(1) | 0x01;
     ubRBBData[1][2] = 0;
 }
 

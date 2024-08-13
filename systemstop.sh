@@ -8,3 +8,7 @@ rmmod wbs2812bDriver
 echo "uninstall ws2812b driver."
 rmmod buzzerdriver
 echo "uninstall buzzer driver."
+rmmod dht11Driver
+echo "uninstall dht11 driver."
+rmmod ledDriver
+echo "uninstall 4 Pcs Led driver."

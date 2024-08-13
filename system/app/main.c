@@ -38,6 +38,7 @@ int main(void)
         sfws2812bdisplayTask();
         sfbuzzerTask();
         sffileWRTask();
+        sfenvirTask();
         sfDebugTask();
     }
     return 0;
@@ -56,6 +57,7 @@ void sfinitialTask(void)
     uwTaskTimeArray[cWs2812bDisplayTask] = cWs2812bDisplayTimeCount;
     uwTaskTimeArray[cFileWRTask] = cFileWRTimeCount;
     uwTaskTimeArray[cBuzzerTask] = cBuzzerTimeCount;
+    uwTaskTimeArray[cEnvirTask] = cEnvirTimeCount;
     uwTaskTimeArray[cDebugTask] = cDebugTimeCount;
     uwTaskTimeArray[cIdleTask] = 1;
     for(int i = 0; i < cTaskQty; i++)
