@@ -1,6 +1,7 @@
 #include    "./include/app.h"
 #include    "../interface/include/adxl485api.h"
 #include    "../interface/include/pcf8591api.h"
+#include    <stdbool.h>
 
 #define cT(x) ((x * 1000) / cErthItityTimeCount)
 
@@ -15,6 +16,13 @@ int     wInityLv = 0;
 void sfinitialErthItity(void)
 {
     sfinitaladxl485();
+}
+
+
+void sfexitErthItity(void)
+{
+    sfexitadxl485();
+    sfOutputDacValue(0);
 }
 
 

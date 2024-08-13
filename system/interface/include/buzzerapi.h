@@ -1,0 +1,1 @@
+extern void sfBuzzerOutput(unsigned char ubValue);

@@ -1,8 +1,20 @@
-#include "./include/app.h"
+#include    "./include/app.h"
+#include    <stdio.h>
+#include    <stdlib.h>
+#include    <stdbool.h>
+#include    <math.h>
+#include    <signal.h>
+#include    <sys/time.h>
+#include    <sys/ipc.h>
+#include    <sys/shm.h>
+#include    <sys/types.h>
+#include    <sys/stat.h>
 
+void sfinitialExitSIGINT(void);
 void sfinitialTask(void);
 void sfinitialtimer(void);
 void timer_handler(int signum);
+void handle_sigint(int signum);
 void sfClearTaskFlag(unsigned char ubTaskNum);
 void sfDebugTask(void);
 
@@ -13,6 +25,7 @@ static unsigned int uwMaxCounter = 1;
 
 int main(void)
 {
+    sfinitialExitSIGINT();
     sfinitialfileWR();
     sfinitialErthItity();
     sfinitialws2812bdispaly();
@@ -23,10 +36,17 @@ int main(void)
     {
         sfErthItityTask();
         sfws2812bdisplayTask();
+        sfbuzzerTask();
         sffileWRTask();
         sfDebugTask();
     }
     return 0;
+}
+
+
+void sfinitialExitSIGINT(void)
+{
+    signal(SIGINT, handle_sigint);
 }
 
 
@@ -35,6 +55,7 @@ void sfinitialTask(void)
     uwTaskTimeArray[cErthItityTask] = cErthItityTimeCount;
     uwTaskTimeArray[cWs2812bDisplayTask] = cWs2812bDisplayTimeCount;
     uwTaskTimeArray[cFileWRTask] = cFileWRTimeCount;
+    uwTaskTimeArray[cBuzzerTask] = cBuzzerTimeCount;
     uwTaskTimeArray[cDebugTask] = cDebugTimeCount;
     uwTaskTimeArray[cIdleTask] = 1;
     for(int i = 0; i < cTaskQty; i++)
@@ -80,6 +101,15 @@ void timer_handler(int signum)
             uwTaskFlag |= (1 << i);
         }
     }
+}
+
+
+void handle_sigint(int signum)
+{
+    sfexitws2812bdisplay();
+    sfexitErthItity();
+    sfexitbuzzertask();
+    exit(0);
 }
 
 

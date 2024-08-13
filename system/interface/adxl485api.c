@@ -52,6 +52,20 @@ void sfinitaladxl485(void)
 }
 
 
+void sfexitadxl485(void)
+{
+    int wfdi2cdev;
+    short sTemp;
+
+    wfdi2cdev = open(DEVICE_I2C1, O_RDWR);
+    ubbuf[0] = 0x00;
+    sfadxl485_write_bytes(wfdi2cdev, REGISTER_DEVICE_DATA_FORMAT, ubbuf, 1);
+    ubbuf[0] = 0x00;
+    sfadxl485_write_bytes(wfdi2cdev, REGISTER_DEVICE_POWER_CTL, ubbuf, 1);
+    close(wfdi2cdev);
+}
+
+
 unsigned char sfubGetadxl485DeviceId(void)
 {
     int wfdi2cdev;
