@@ -6,7 +6,7 @@
 #define cT(x) ((x * 1000) / cWs2812bDisplayTimeCount)
 
 unsigned char ubRBBData[2][3] = {{0, 0, 0} , {0, 0, 0}};
-unsigned char ubLightValueAdj = 255; 
+unsigned char ubGreenLightValueAdj = 0; 
 
 void    sfinitialws2812bdispaly(void)
 {
@@ -72,10 +72,10 @@ void    sfWarmingLedDisplay(int wLevel)
 void    sfNormalWorking(void)
 {
     ubRBBData[0][0] = 0;
-    ubRBBData[0][1] = ubLightValueAdj | 0x01;
+    ubRBBData[0][1] = ubGreenLightValueAdj | 0x01;
     ubRBBData[0][2] = 0;
     ubRBBData[1][0] = 0;
-    ubRBBData[1][1] = ubLightValueAdj | 0x01;
+    ubRBBData[1][1] = ubGreenLightValueAdj | 0x01;
     ubRBBData[1][2] = 0;
 }
 
@@ -143,8 +143,8 @@ void    sfRedFlashing(void)
 void sflightBlackAdj(void)
 {
     static unsigned char ubOutputDataOld = 0;
-    ubLightValueAdj = sfubGetDigitalFilter(sfubGetAdcChannelValue(1), ubOutputDataOld);
-    ubOutputDataOld = ubLightValueAdj;
+    ubGreenLightValueAdj = sfubGetDigitalFilter(sfubGetAdcChannelValue(1), ubOutputDataOld);
+    ubOutputDataOld = ubGreenLightValueAdj;
 }
 
 
@@ -153,4 +153,10 @@ unsigned char   sfubGetDigitalFilter(unsigned char ubInputData, unsigned char ub
     unsigned char ubOutputData = 0;
     ubOutputData = (unsigned char)((((unsigned int)ubInputData * 2457) + ((unsigned int)ubOutputDataOld * 1639)) >> 12);
     return(ubOutputData);
+}
+
+
+unsigned char sfubGetGreenLightValuePer(void)
+{
+    return((unsigned char)(((unsigned int)ubGreenLightValueAdj * 100) >> 8) + 1);
 }

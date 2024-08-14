@@ -5,6 +5,8 @@
 #define cT(x) ((x * 1000) / cBuzzerTimeCount)
 #define cBUZZER_FREQ   25
 
+unsigned char ubBuzzerStatus = false;
+
 void sfexitbuzzertask(void)
 {
     sfBuzzerOnOff(false);
@@ -61,10 +63,18 @@ void sfBuzzerOnOff(unsigned char ubFlag)
             sfBuzzerOutput(1);
             uwPeriodCnt++;
         }
+        ubBuzzerStatus = true;
     }
     else
     {
         sfBuzzerOutput(0);
         uwPeriodCnt = 0;
+        ubBuzzerStatus = false;
     }
+}
+
+
+unsigned char sfubGetBuzzerStatus(void)
+{
+    return(ubBuzzerStatus);
 }

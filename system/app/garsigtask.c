@@ -10,7 +10,7 @@
 #define cDisCmRedLevel              cDisCm(30)
 #define cDisCmYellowLevel           cDisCm(40)
 
-#define FourPcsLED_BLUE             0
+#define FourPcsLED_LED_BLUE         0
 #define FourPcsLED_LED_GREEN        1
 #define FourPcsLED_LED_YELLOW       2
 #define FourPcsLED_LED_RED          3
@@ -18,9 +18,10 @@
 unsigned int    uwObDistence = 0;
 unsigned char   ubObDisLvTrigerFlag = 0x00;
 
+
 void    sfinitialgarsig(void)
 {
-    sfSetLedOutput(FourPcsLED_BLUE, 0);
+    sfSetLedOutput(FourPcsLED_LED_BLUE, 0);
     sfSetLedOutput(FourPcsLED_LED_GREEN, 0);
     sfSetLedOutput(FourPcsLED_LED_YELLOW, 0);
     sfSetLedOutput(FourPcsLED_LED_RED, 0);
@@ -31,7 +32,7 @@ void    sfinitialgarsig(void)
 
 void    sfexitgarsig(void)
 {
-    sfSetLedOutput(FourPcsLED_BLUE, 0);
+    sfSetLedOutput(FourPcsLED_LED_BLUE, 0);
     sfSetLedOutput(FourPcsLED_LED_GREEN, 0);
     sfSetLedOutput(FourPcsLED_LED_YELLOW, 0);
     sfSetLedOutput(FourPcsLED_LED_RED, 0);
@@ -123,6 +124,12 @@ void    sfgarsigwork(void)
         sfSetLedOutput(FourPcsLED_LED_YELLOW, 0);
         sfSetLedOutput(FourPcsLED_LED_RED, 0);
     }
+}
+
+
+unsigned int sfubGetObDistenceValue(void)
+{
+    return(uwObDistence);
 }
 
 

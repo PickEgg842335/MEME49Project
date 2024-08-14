@@ -18,7 +18,7 @@
 #define cTimeBase                   1
 #define cErthItityTimeBase          10
 #define cWs2812bDisplayTimeBase     10
-#define cFileWRTimeBase             2000
+#define cFileWRTimeBase             500
 #define cBuzzerTimeBase             20
 #define cEnvirTimeBase              5000
 #define cGarsigTimeBase             50

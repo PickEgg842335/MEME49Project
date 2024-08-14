@@ -24,7 +24,6 @@ static char bHR04WriteData;
 static char bHR04BusyFlag = false;
 static int  echo_irq;
 static ktime_t start_time, end_time;
-static int  distance;
 static unsigned char   ubResultBuf[9];
 
 
@@ -121,9 +120,7 @@ static irqreturn_t echo_irq_handler(int irq, void *dev_id)
     else
     {
         end_time = ktime_get();
-        distance = ktime_to_us(ktime_sub(end_time, start_time)) * 343 / 2 / 10000;
         bHR04BusyFlag = false;
-        printk(KERN_INFO "HR04: Distance = %d cm\n", distance);
     }
 
     return IRQ_HANDLED;

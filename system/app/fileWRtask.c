@@ -1,5 +1,7 @@
 #include    "./include/app.h"
+#include    <pthread.h>
 #include    <stdio.h>
+#include    <stdlib.h>
 #include    <stdbool.h>
 #include    <sys/stat.h>
 
@@ -31,27 +33,37 @@ void sfinitialfileWR(void)
 
 void sffileWRTask(void)
 {
-    FILE *file;
-    int wDataReadBusyflag = 0;
+    pthread_t thread;
+    const char *task = "FileWRtask";
 
     if((sfGetTaskFlag() & (1 << cFileWRTask)) == (1 << cFileWRTask))
     {
         sfClearTaskFlag(cFileWRTask);
-        file = fopen("./data/status.txt", "r");
-        if(file == NULL)
-        {
-            printf("Can't Find status.txt\n");
-            return;
-        }
-        fscanf(file, "%d", &wDataReadBusyflag);
-        fclose(file);
-        if(wDataReadBusyflag == true)
-        {
-            return;
-        }
-        file = fopen("./data/output.csv", "w");
-        fprintf(file, "Acccle,Level,Humidity,Temperature\n");
-        fprintf(file, "%f,%d,%f,%f\n", sffGetRmsTotalAcccle(), sfwGetItityLvTrigerFlag(),sffGetEnvirHumidity(),sffGetEnvirTemp());
-        fclose(file);
+        pthread_create(&thread, NULL, ffileWR_work_function, (void *)task);
     }
+}
+
+
+void *ffileWR_work_function(void *arg)
+{
+    FILE *file;
+    int wDataReadBusyflag = 0;
+
+    file = fopen("./data/status.txt", "r");
+    if(file == NULL)
+    {
+        printf("Can't Find status.txt\n");
+        return;
+    }
+    fscanf(file, "%d", &wDataReadBusyflag);
+    fclose(file);
+    if(wDataReadBusyflag == true)
+    {
+        return;
+    }
+    file = fopen("./data/output.csv", "w");
+    fprintf(file, "Acccle,Level,Humidity,Temperature,BzrStatus,EnvLightSensePer,EnvLightLv,EnvLightStatus,GreenLightPer,Distence(mm),DisLv\n");
+    fprintf(file, "%f,%d,%f,%f,%d,%d,%d,%d,%d,%d,%d\n", sffGetRmsTotalAcccle(), sfwGetItityLvTrigerFlag(), sffGetEnvirHumidity(), sffGetEnvirTemp(), sfubGetBuzzerStatus(), sfubGetEnvirLightValuePer(),  sfubGetEnvirLightLevel(), sfubGetEnvirLightStatus(), sfubGetGreenLightValuePer(), sfubGetObDistenceValue(),sfubGetObDisLvTrigerLv());
+    fclose(file);
+    pthread_exit(NULL);
 }

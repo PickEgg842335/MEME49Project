@@ -1,2 +1,2 @@
-Acccle,Level,Humidity,Temperature
-0.010698,0,43.000000,28.500000
+Acccle,Level,Humidity,Temperature,BzrStatus,EnvLightSensePer,EnvLightLv,EnvLightStatus,GreenLightPer,Distence(mm),DisLv
+0.010170,0,41.000000,33.700001,0,45,3,0,1,7389,0

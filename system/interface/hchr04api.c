@@ -4,11 +4,6 @@
 
 #define DEVICE_NAME         "/dev/hchr04"
 
-#define LED_BLUE            0
-#define LED_GREEN           1
-#define LED_YELLOW          2
-#define LED_RED             3
-
 
 void    sfTrigerDistenMeasure(void)
 {
