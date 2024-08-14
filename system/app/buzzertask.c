@@ -3,7 +3,7 @@
 #include    <stdbool.h>
 
 #define cT(x) ((x * 1000) / cBuzzerTimeCount)
-#define cBUZZER_FREQ   2
+#define cBUZZER_FREQ   25
 
 void sfexitbuzzertask(void)
 {
@@ -25,20 +25,17 @@ void sfBuzzerWorkControl(void)
     static unsigned int uwTimeCnt = 0;
     static unsigned char ubBuzzerData = false;
 
-    switch(sfwGetItityLevel())
+    if(sfwGetItityLvTrigerFlag() != 0)
     {
-        case 0:
-            sfBuzzerOnOff(false);
-        break;
-        case 1:
-        case 2:
-            if(++uwTimeCnt > cT(0.5))
-            {
-                ubBuzzerData = !ubBuzzerData;
-                uwTimeCnt = 0;
-            }
-            sfBuzzerOnOff(ubBuzzerData);
-        break;
+        sfBuzzerOnOff(true);
+    }
+    else if(sfubGetObDisLvTrigerLv() != 0)
+    {
+        sfBuzzerOnOff(true);
+    }
+    else
+    {
+        sfBuzzerOnOff(false);
     }
 }
 

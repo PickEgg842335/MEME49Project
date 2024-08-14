@@ -6,6 +6,7 @@
 #define cT(x) ((x * 1000) / cWs2812bDisplayTimeCount)
 
 unsigned char ubRBBData[2][3] = {{0, 0, 0} , {0, 0, 0}};
+unsigned char ubLightValueAdj = 255; 
 
 void    sfinitialws2812bdispaly(void)
 {
@@ -36,8 +37,9 @@ void    sfws2812bdisplayTask(void)
     if((sfGetTaskFlag() & (1 << cWs2812bDisplayTask)) == (1 << cWs2812bDisplayTask))
     {
         sfClearTaskFlag(cWs2812bDisplayTask);
-        sfWarmingLedDisplay(sfwGetItityLevel());
+        sfWarmingLedDisplay(sfwGetItityLvTrigerFlag());
         sfInputAdcValueUpgrade();
+        sflightBlackAdj();
     }
 }
 
@@ -50,11 +52,11 @@ void    sfWarmingLedDisplay(int wLevel)
             sfNormalWorking();
         break;
 
-        case 1:
+        case 0x01:
             sfYellowFlashing();
         break;
-
-        case 2:
+        case 0x02:
+        case 0x03:
             sfRedFlashing();
         break;
     }
@@ -70,10 +72,10 @@ void    sfWarmingLedDisplay(int wLevel)
 void    sfNormalWorking(void)
 {
     ubRBBData[0][0] = 0;
-    ubRBBData[0][1] = sfubGetAdcChannelValue(1) | 0x01;
+    ubRBBData[0][1] = ubLightValueAdj | 0x01;
     ubRBBData[0][2] = 0;
     ubRBBData[1][0] = 0;
-    ubRBBData[1][1] = sfubGetAdcChannelValue(1) | 0x01;
+    ubRBBData[1][1] = ubLightValueAdj | 0x01;
     ubRBBData[1][2] = 0;
 }
 
@@ -135,4 +137,20 @@ void    sfRedFlashing(void)
         ubRBBData[1][1] = 0;
         ubRBBData[1][2] = 0;
     }
+}
+
+
+void sflightBlackAdj(void)
+{
+    static unsigned char ubOutputDataOld = 0;
+    ubLightValueAdj = sfubGetDigitalFilter(sfubGetAdcChannelValue(1), ubOutputDataOld);
+    ubOutputDataOld = ubLightValueAdj;
+}
+
+
+unsigned char   sfubGetDigitalFilter(unsigned char ubInputData, unsigned char ubOutputDataOld)
+{
+    unsigned char ubOutputData = 0;
+    ubOutputData = (unsigned char)((((unsigned int)ubInputData * 2457) + ((unsigned int)ubOutputDataOld * 1639)) >> 12);
+    return(ubOutputData);
 }

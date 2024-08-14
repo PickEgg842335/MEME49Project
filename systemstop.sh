@@ -12,3 +12,5 @@ rmmod dht11Driver
 echo "uninstall dht11 driver."
 rmmod ledDriver
 echo "uninstall 4 Pcs Led driver."
+rmmod hchr04driver
+echo "uninstall HC-HR04 driver."

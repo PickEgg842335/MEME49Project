@@ -51,7 +51,7 @@ void sffileWRTask(void)
         }
         file = fopen("./data/output.csv", "w");
         fprintf(file, "Acccle,Level,Humidity,Temperature\n");
-        fprintf(file, "%f,%d,%f,%f\n", sffGetRmsTotalAcccle(), sfwGetItityLevel(),sffGetEnvirHumidity(),sffGetEnvirTemp());
+        fprintf(file, "%f,%d,%f,%f\n", sffGetRmsTotalAcccle(), sfwGetItityLvTrigerFlag(),sffGetEnvirHumidity(),sffGetEnvirTemp());
         fclose(file);
     }
 }

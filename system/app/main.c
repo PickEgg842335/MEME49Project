@@ -10,6 +10,7 @@
 #include    <sys/types.h>
 #include    <sys/stat.h>
 
+
 void sfinitialExitSIGINT(void);
 void sfinitialTask(void);
 void sfinitialtimer(void);
@@ -29,6 +30,7 @@ int main(void)
     sfinitialfileWR();
     sfinitialErthItity();
     sfinitialws2812bdispaly();
+    sfinitialgarsig();
     sfinitialTask();
     sfinitialtimer();
 
@@ -39,6 +41,7 @@ int main(void)
         sfbuzzerTask();
         sffileWRTask();
         sfenvirTask();
+        sfgarsigTask();
         sfDebugTask();
     }
     return 0;
@@ -58,6 +61,7 @@ void sfinitialTask(void)
     uwTaskTimeArray[cFileWRTask] = cFileWRTimeCount;
     uwTaskTimeArray[cBuzzerTask] = cBuzzerTimeCount;
     uwTaskTimeArray[cEnvirTask] = cEnvirTimeCount;
+    uwTaskTimeArray[cGarsigTask] = cGarsigTimeCount;
     uwTaskTimeArray[cDebugTask] = cDebugTimeCount;
     uwTaskTimeArray[cIdleTask] = 1;
     for(int i = 0; i < cTaskQty; i++)
@@ -111,6 +115,7 @@ void handle_sigint(int signum)
     sfexitws2812bdisplay();
     sfexitErthItity();
     sfexitbuzzertask();
+    sfexitgarsig();
     exit(0);
 }
 
