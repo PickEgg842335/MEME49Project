@@ -4,7 +4,7 @@ const fs = require('fs');
 const { error } = require('console');
 const csvToJson = require('convert-csv-to-json');
 const readline = require('readline');
-const upgradeMtrDataTaskTimems = 1000;
+const upgradeMtrDataTaskTimems = 500;
 
 let json = {};
 let jsonstring = '';
@@ -13,7 +13,7 @@ app.listen(8181);
 app.use(express.static(__dirname + "/public"));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/ErthItityIndex.html");
+    res.sendFile(__dirname + "/public/hsmartSysIndex.html");
 });
 
 app.get('/read', (req, res) => {
