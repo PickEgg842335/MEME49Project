@@ -1,0 +1,141 @@
+.classDivTatalItem{
+    width: 1300px;
+    flex-direction: row;
+    display: inline-flex;
+    margin: 1em;
+}
+
+.classDivItemAll{
+    width: 65%;
+}
+
+.classDivItemL1{
+    width: 100%;
+    flex-direction: row;
+    display: inline-flex;
+    margin: 1em;
+}
+
+.classDivItem{
+    /* width: 1000px; */
+    flex-direction: row;
+    display: inline-flex;
+    margin: 1em;
+}
+
+.classDivCtrlPanTotal{
+    width: 30%;
+    flex-direction: column;
+    display: inline-flex;
+    margin: 1em;
+}
+
+.classDivTitleH2 {
+    text-align: center;
+}
+
+.classDivPic{
+    margin: 1em;
+}
+
+.classDivCtrlPanL1{
+    margin: 1em;
+}
+
+.classDivCtrlPanTitle h2{
+    width: 280px;
+    border: 2px solid rgb(255, 128, 0);
+    border-radius: 10px;
+    background-color: rgb(255, 128, 0);
+    text-align: center;
+    font-weight: 900;
+}
+
+
+.classDivCtrlPanItemL1 span{
+    line-height: 0em;
+}
+
+.classField1{
+    width: 300px;
+    /* height: 270px; */
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+    /* background-color: rgb(160, 255, 160); */
+    /* background-color: rgb(255, 160, 160); */
+}
+
+.classField2{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+}
+
+.classField3{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+    /* background-color: rgb(220, 255, 220); */
+    /* background-color: rgb(255, 255, 64); */
+    /* background-color: rgb(255, 64, 64); */
+}
+
+.classField4{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+    /* background-color: rgb(64, 255, 64); */
+    /* background-color: rgb(255, 255, 64); */
+    /* background-color: rgb(255, 64, 64); */
+}
+
+.classField5{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+    /* background-color: rgb(120, 120, 120); */
+    /* background-color: rgb(255, 255, 160); */
+}
+
+.classField6{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+}
+
+.classDivTitle h2{
+    width: 280px;
+    border: 2px solid rgb(255, 128, 0);
+    border-radius: 10px;
+    background-color: rgb(255, 128, 0);
+    text-align: center;
+    font-weight: 900;
+}
+
+
+.classDivCenter{
+    /*height: 300px;*/
+    display: flex;
+}
+
+
+.classDiv1CenterL1 span{
+    line-height: 0em;
+}
+
+
+.classDiv2CenterL1{
+    width: 100%;
+}
+
+
+.classDiv2CenterL1 span{
+    font-weight: 900;
+    line-height: 0em;
+}
