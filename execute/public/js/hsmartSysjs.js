@@ -34,6 +34,7 @@ window.onload = function()
             ObjInputData : {},
             ObjJsonButton : document.getElementById("idInputJson"),
             objInputTypeMsg : document.getElementById("idConnectType"),
+            ObjInputCpuData : {},
         },
         ObjOutput : {
             ObjEnvOutputMsg : document.getElementById("idEnvOutputMsg"),
@@ -41,6 +42,7 @@ window.onload = function()
             ObjDisOutputMsg : document.getElementById("idDisOutputMsg"),
             ObjLightOutputMsg : document.getElementById("idLightOutputMsg"),
             ObjBzrOutputMsg : document.getElementById("idBzrOutputMsg"),
+            ObjCpuOutputMsg : document.getElementById("idCpuOutputMsg"),
         },
         ObjField : {
             ItityWorkFlag : false,
@@ -63,13 +65,15 @@ window.onload = function()
             ObjDisField : document.getElementById("idField4"),
             ObjLightField: document.getElementById("idField5"),
             ObjBzrField : document.getElementById("idField6"),
-        }
+            ObjCpuField : document.getElementById("idField7"),
+        },
     };
     sfDisplayEnvData(ObjMtrDataInf);
     sfDisplayItityData(ObjMtrDataInf);
     sfDisplayDisOutputData(ObjMtrDataInf);
     sfDisplayLightOutputData(ObjMtrDataInf);
     sfDisplayBzrOutputData(ObjMtrDataInf);
+    sfDisplayCpuOutputData(ObjMtrDataInf);
     ObjMtrDataInf.ObjInput.ObjJsonButton.addEventListener("click", function(){
         sfStartPeriodMtrDataUpgrade(ObjMtrDataInf);
     });
@@ -110,12 +114,14 @@ function sfGetMtrDataFromServer(ObjInf)
     })
         .then((result) => {
             ObjInf.ObjInput.ObjInputData = result[0];
+            ObjInf.ObjInput.ObjInputCpuData = result[1];
             ObjInf.ObjInput.UpgradeFlag = true;
             sfDisplayEnvData(ObjInf);
             sfDisplayItityData(ObjInf);
             sfDisplayDisOutputData(ObjInf);
             sfDisplayLightOutputData(ObjInf);
             sfDisplayBzrOutputData(ObjInf);
+            sfDisplayCpuOutputData(ObjInf);
     })    
         .catch((error) => {
             if(++ObjInf.ObjInput.timeoutCnt > 10)
@@ -493,3 +499,22 @@ function sfDisplayBzrOutputData(ObjInf)
     }
 }
 
+
+function sfDisplayCpuOutputData(ObjInf)
+{
+    let InpputValue;
+
+    if(ObjInf.ObjInput.UpgradeFlag == false)
+    {
+        ObjInf.ObjOutput.ObjCpuOutputMsg.innerHTML = `監控關閉中`;
+    }
+    else
+    {
+        ObjInf.ObjOutput.ObjCpuOutputMsg.innerHTML = ``;
+        console.log(`${ObjInf.ObjInput.ObjInputCpuData}`);
+        for(let item in ObjInf.ObjInput.ObjInputCpuData)
+        {
+            ObjInf.ObjOutput.ObjCpuOutputMsg.innerHTML += `${item} : <span style="color:blue">${ObjInf.ObjInput.ObjInputCpuData[item]}</span><br>`;
+        }
+    }
+}

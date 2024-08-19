@@ -109,6 +109,13 @@
     box-shadow: 8px 8px rgb(91, 91, 91);
 }
 
+.classField7{
+    width: 360px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 8px 8px rgb(91, 91, 91);
+}
+
 .classDivTitle h2{
     width: 280px;
     border: 2px solid rgb(255, 128, 0);
