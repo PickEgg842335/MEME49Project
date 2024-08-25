@@ -36,14 +36,12 @@ static char bWriteData[MAX_LED_DEVICE];
 
 static int led_open(struct inode *inode, struct file *file)
 {
-    printk("open in kernel\n");
     return 0;
 }
 
 
 static int led_release(struct inode *inode, struct file *file)
 {
-    printk("LED 4color release\n");
     return 0;
 }
 
@@ -93,7 +91,6 @@ static int __init ledDevice_init(void)
             __func__, DEVICE_MAJOR_NAME, DEVICE_MAJOR, DEVICE_MAJOR );
         return(ret);
     }
-    printk("LED driver register success!\n");
     cdev_init(&mycdev, &strled_dev_fops);
     mycdev.owner = THIS_MODULE;
 
@@ -128,8 +125,6 @@ static int __init ledDevice_init(void)
             return PTR_ERR(led_device[i]);
         }
     }
-
-    printk("LED driver make node success!\n");
 
     // Reserve gpios
     for(int i = 0; i < MAX_LED_DEVICE; i++)

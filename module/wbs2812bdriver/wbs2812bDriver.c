@@ -66,43 +66,36 @@ struct wbs2812b mywbs2812b;
 
 static int getFIFOEmpty(void)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
     return ((readl(gpio_base + PWM_STA) & 0x02) && true);
 }
 
 
 static void setStartPwmFIFO(void)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
     writel(0x81 | 0x20, pwm_base + PWM_CTL);
 }
 
 
 static void setStopPwmFIFO(void)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
     writel(0x81, pwm_base + PWM_CTL);
 }
 
 
 static void setPwmFIFO(unsigned int uwPwmValue)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
     writel(uwPwmValue, pwm_base + PWM_FIFO1);
 }
 
 
 static void setPwm0Output(unsigned int uwPwmValue)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
     writel(uwPwmValue, pwm_base + PWM_DAT1);
 }
 
 
 static void setPwm0setup(void)
 {
-    pwm_base = ioremap(PWM_BASE, 0x28);
-    clk_base = ioremap(CLOCK_BASE, 0xA8);
     // Stop PWM clock and waiting for busy flag doesn't work, so kill clock
     writel(0x5A000000 | (1 << 5), clk_base + PWMCLK_CNTL);
     udelay(10);
@@ -130,7 +123,6 @@ static void setPwm0setup(void)
 
 static void setGpio12toPwm0_0(void)
 {
-    gpio_base = ioremap(GPIO_BASE, 0xF4);
     writel((readl(gpio_base + GPFSEL1) & ~(7 << 6)) | (GPIO_ALT0 << 6), gpio_base + GPFSEL1);
 }
 
@@ -158,7 +150,7 @@ static int wbs2812b_open(struct inode *inode, struct file *file)
     mywbs2812b.uwRealQty = MAXWBS2812BQTY;
     mywbs2812b.ubBusyFlag = false;
     memset(mywbs2812b.ubDisplayData, 0, sizeof(mywbs2812b.ubDisplayData));
-    printk("open wbs2812b driver in kernel\n");
+    // printk("open wbs2812b driver in kernel\n");
     return 0;
 }
 
@@ -168,7 +160,7 @@ static int wbs2812b_release(struct inode *inode, struct file *file)
     mywbs2812b.uwRealQty = MAXWBS2812BQTY;
     mywbs2812b.ubBusyFlag = false;
     memset(mywbs2812b.ubDisplayData, 0, sizeof(mywbs2812b.ubDisplayData));
-    printk("wbs2812b release\n");
+    // printk("wbs2812b release\n");
     return 0;
 }
 
@@ -199,8 +191,6 @@ static long wbs2812b_ioctl(struct file *file, unsigned int cmd, unsigned long ar
                 return -1;
             }
             mywbs2812b.uwRealQty = wDataTemp;
-            printk("wbs2812b driver: WBSQTY set success.");
-            printk("WBSQTY = %d",mywbs2812b.uwRealQty);
             break;
         case IOCTL_SET_WBSDATA:
             wLengthTemp = sizeof((char *)arg);
@@ -223,8 +213,6 @@ static long wbs2812b_ioctl(struct file *file, unsigned int cmd, unsigned long ar
             mywbs2812b.ubDisplayData[uwDataTemp - 1][0] = ubDataTemp[3];
             mywbs2812b.ubDisplayData[uwDataTemp - 1][1] = ubDataTemp[2];
             mywbs2812b.ubDisplayData[uwDataTemp - 1][2] = ubDataTemp[4];
-            printk("wbs2812b driver: WBSDATA set success.");
-            printk("WBSDATA2 = %d %d %d %d", (uwDataTemp - 1), (int)mywbs2812b.ubDisplayData[uwDataTemp - 1][0], (int)mywbs2812b.ubDisplayData[uwDataTemp - 1][1], (int)mywbs2812b.ubDisplayData[uwDataTemp - 1][2]);
             break;
         case IOCTL_SET_WBSDISPLAY:
             mywbs2812b.ubBusyFlag = true;
@@ -277,7 +265,6 @@ static int __init wbs2812bDevice_init(void)
             __func__, DEVICE_NAME, DEVICE_MAJOR, DEVICE_MAJOR );
         return(ret);
     }
-    printk("WBS2812b-LED driver register success!\n");
     cdev_init(&mywbs2812b.cdev, &strWbs2812b_dev_fops);
     mywbs2812b.cdev.owner = THIS_MODULE;
 
@@ -317,13 +304,9 @@ static int __init wbs2812bDevice_init(void)
         ret = -EBUSY;
         return(ret);
     }
-    printk("GPIO12 requests success \n");
 
     setGpio12toPwm0_0();
-    printk("GPIO12 is set ALT0 function PWM0_0\n");
-
     setPwm0setup();
-    printk(KERN_INFO "GPIO12 is set to PWM mode\n");
     setPwmFIFO(PWMIdle);
     setStartPwmFIFO();
     return 0;
@@ -360,7 +343,6 @@ static void __exit wbs2812bDevice_exit(void)
     class_destroy(mywbs2812b.class);
     cdev_del(&mywbs2812b.cdev);
     unregister_chrdev_region(MKDEV(DEVICE_MAJOR, 0), 1);
-    printk(KERN_INFO "GPIO12 disabled\n");
 }
 
 module_init(wbs2812bDevice_init);

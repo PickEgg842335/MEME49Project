@@ -39,7 +39,6 @@ static void hchr04_trigger_measurement(void)
 
 static int hchr04_open(struct inode *inode, struct file *file)
 {
-    printk("open in kernel\n");
     bHR04BusyFlag = false;
     return 0;
 }
@@ -47,7 +46,6 @@ static int hchr04_open(struct inode *inode, struct file *file)
 
 static int hchr04_release(struct inode *inode, struct file *file)
 {
-    printk("HC-HR04 release\n");
     bHR04BusyFlag = false;
     return 0;
 }
@@ -140,7 +138,6 @@ static int __init hchr04Device_init(void)
             __func__, DEVICE_NAME, DEVICE_MAJOR, DEVICE_MAJOR );
         return(ret);
     }
-    printk("HC-HR04 driver register success!\n");
     cdev_init(&mycdev, &strled_dev_fops);
     mycdev.owner = THIS_MODULE;
 
@@ -168,8 +165,6 @@ static int __init hchr04Device_init(void)
         unregister_chrdev_region(MKDEV(DEVICE_MAJOR, 0), 1);
         return PTR_ERR(hchr04_device);
     }
-
-    printk("HC-HR04 driver make node success!\n");
 
     // Reserve gpios
     ret = gpio_request(PIN_HR04_TRIG, PIN_TRIG_NAME);

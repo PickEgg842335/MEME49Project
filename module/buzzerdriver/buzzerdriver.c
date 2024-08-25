@@ -18,14 +18,12 @@ static char bWriteData;
 
 static int buzzer_open(struct inode *inode, struct file *file)
 {
-    printk("open in kernel\n");
     return 0;
 }
 
 
 static int buzzer_release(struct inode *inode, struct file *file)
 {
-    printk("buzzer release\n");
     return 0;
 }
 
@@ -55,7 +53,7 @@ static struct file_operations strled_dev_fops={
     .write = buzzer_write,
     .release = buzzer_release,
 };
-//static dev_t  devno = 0;
+
 static struct cdev mycdev;
 static struct class *buzzer_class;
 static struct device *buzzer_device;
@@ -74,7 +72,6 @@ static int __init buzzerDevice_init(void)
             __func__, DEVICE_NAME, DEVICE_MAJOR, DEVICE_MAJOR );
         return(ret);
     }
-    printk("Buzzer driver register success!\n");
     cdev_init(&mycdev, &strled_dev_fops);
     mycdev.owner = THIS_MODULE;
 
@@ -103,8 +100,6 @@ static int __init buzzerDevice_init(void)
         unregister_chrdev_region(MKDEV(DEVICE_MAJOR, 0), 1);
         return PTR_ERR(buzzer_device);
     }
-
-    printk("Buzzer driver make node success!\n");
 
     // Reserve gpios
     ret = gpio_request(PIN_BUZZER, DEVICE_NAME);

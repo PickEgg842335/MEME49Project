@@ -51,7 +51,6 @@ void dht11_read_data(void)
             wTimeout++;
             if(wTimeout > 20)
             {
-                printk("error data!\n");
                 break;
             }
         }
@@ -62,7 +61,6 @@ void dht11_read_data(void)
             wTimeout++;
             if(wTimeout > 20)
             {
-                printk("error data!\n");
                 break;
             }
         }
@@ -107,27 +105,22 @@ void dht11_read_data(void)
     if((unsigned int)uwResultCheckSum == ubResultBuf[4])
     {
         ubcheck_flag = 0xff;
-        printk("dht11 check pass\n");
-        printk("humidity=[%d],temp=[%d]\n", ubResultBuf[0], ubResultBuf[2]);
     }
     else
     {
-        ubcheck_flag = 0x00;
-        printk("dht11 check fail\n");           
+        ubcheck_flag = 0x00;        
     }                   
 }
 
 
 static int dht11_open(struct inode *inode, struct file *file)
 {
-    printk("open dht11 in kernel\n");
     return 0;
 }
 
 
 static int dht11_release(struct inode *inode, struct file *file)
 {
-    printk("dht11 release\n");
     return 0;
 }
 
@@ -136,7 +129,6 @@ static ssize_t dht11_read(struct file *file, char* buffer, size_t size, loff_t *
 {
     int wRet;
     local_irq_disable();
-    printk("read dht11\n");
     dht11_read_data();
     local_irq_enable();
     if(ubcheck_flag == 0xff)
@@ -182,7 +174,6 @@ static int __init dht11Device_init(void)
             __func__, DEVICE_NAME, DEVICE_MAJOR, DEVICE_MAJOR );
         return(wRet);
     }
-    printk("DHT11 driver register success!\n");
 
     dht_class = class_create(DEVICE_NAME);
     if (IS_ERR(dht_class))
@@ -200,8 +191,6 @@ static int __init dht11Device_init(void)
         class_destroy(dht_class);
         return PTR_ERR(dht_device);
     }
-
-    printk("DHT11 driver make node success!\n");
 
     // Reserve gpios
     if( gpio_request( PIN, DEVICE_NAME ) < 0 )	// request pin 2
