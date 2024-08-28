@@ -5,13 +5,14 @@
 ## 硬體架構:
 ![image](https://github.com/user-attachments/assets/2231237d-24b6-4386-8b22-184b33d514ba)
 ## 軟體架構:
-![image](https://github.com/user-attachments/assets/558b39e4-01ae-4321-8dd9-9949f7c7320f)
+![image](https://github.com/user-attachments/assets/376904a1-2880-41d2-9fe4-f67707eb77b2)
 ## 專案資料說明:
 ![image](https://github.com/user-attachments/assets/efb2e8a2-b5f5-46f3-a330-9666561d9515)
 ## 功能邏輯說明:
 ![image](https://github.com/user-attachments/assets/7ca6744b-a952-4f2d-86c2-36659be26ad9)
 ![image](https://github.com/user-attachments/assets/56b988ee-9ff7-4e52-b16f-9a3fb6db0d80)
 ![image](https://github.com/user-attachments/assets/9478b1e0-00d7-4e1d-8529-ce84656a2ffb)
-![image](https://github.com/user-attachments/assets/25ee0a52-0a63-45ef-99f0-1544b42fad83)
+![image](https://github.com/user-attachments/assets/11ff23e3-aa9b-4e47-9dec-2fd79f225fa5)
+
 
 
